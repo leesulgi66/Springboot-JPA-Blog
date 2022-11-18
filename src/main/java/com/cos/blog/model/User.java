@@ -32,9 +32,10 @@ public class User {
     @Column(nullable = false, length = 50)
     private String email;
 
+    //@ColumnDefault("user")
     //DB는 ROoleType이라는 게 없다.
     @Enumerated(EnumType.STRING)
-    private RoleType role; // Enum을 쓰는게 좋다. // admin, user, manager
+    private RoleType role; // Enum을 쓰는게 좋다. // ADMIN, USER -> String값으로 입력오류를 방지하기 위함.
 
     @CreationTimestamp // 시간이 자동 입력
     private Timestamp createDate;
