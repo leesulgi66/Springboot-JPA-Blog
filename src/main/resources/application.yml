@@ -25,7 +25,7 @@ spring:
       ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      use-new-id-generator-mappings: false
+      use-new-id-generator-mappings: false #jpa 기본 넘버링 전략을 따라가지 않겠다. Entity 에 strategy = GenerationType.IDENTITY를 선언.
     show-sql: true
     properties:
       hibernate.format_sql: true
