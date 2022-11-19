@@ -2,7 +2,7 @@
 
 ### 개인 블로그 프로젝트
 
-Spring Boot, MySQL
+Spring Boot, MySQL, Maven
 
 
 
