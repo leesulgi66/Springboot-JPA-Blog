@@ -4,6 +4,7 @@ import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,23 +26,37 @@ public class DummyControllerTest {
     //save함수는 id를 전달하면 해당 id에 대한 데이터가 있으면 update를 해주고
     //save함주는 id를 전달하면 해당 id에 대한 데이터가 없으면 insert를 해준다.
     //email, password
-    @Transactional
+
+    @DeleteMapping("/dummy/user/{id}")
+    public String delete(@PathVariable int id) {
+        try {
+            userRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e) { //EmptyResultDataAccessException이 아닌 최고 부모인 Exception도 사용 가능하다.
+            return "삭제에 실패하였습니다. 해당 id는 DB에 없습니다.";
+        }
+
+        return "삭제되었습니다. id : "+id;
+    }
+
+    @Transactional //함수 종료시에 자동 commint이 됨.
     @PutMapping("/dummy/user/{id}")
     public User updateUser(@PathVariable int id,@RequestBody User requestUser) { //json데이터를 요청 => Java Object(MessageConverter의 jackson라이브러리가 변환해서 받아준다.)
         System.out.println("id : "+id);
         System.out.println("password : "+requestUser.getPassword());
         System.out.println("email : "+requestUser.getEmail());
 
+        //DB에서 데이터를 가져 올 때 영속화가 된다. 영속성 컨텍스트
         User user = userRepository.findById(id).orElseThrow(()->{
             return new IllegalArgumentException("수정에 실패하였습니다.");
         });
+        //user object에 변경점을 체크
         user.setPassword(requestUser.getPassword());
         user.setEmail(requestUser.getEmail());
 
         //userRepository.save(user);
 
-        //더티 체킹
-        return null;
+        //더티 체킹 : 감지한 변경점을 DB에 수정을 날려준다. (Transactional을 통해서)
+        return user;
     }
 
     //http://localhost:8000/blog/dummy/user
