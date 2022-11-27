@@ -17,8 +17,6 @@ public class UserApiController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private HttpSession session;
 
     @PostMapping("/api/user")
     public ResponseDto<Integer> save(@RequestBody User user) {
@@ -28,6 +26,7 @@ public class UserApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
+    /*
     //기본적인 로그인 방식 구현.
     @PostMapping("/api/user/login")
     public ResponseDto<Integer> login(@RequestBody User user, HttpSession session) {
@@ -39,4 +38,5 @@ public class UserApiController {
         }
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
+     */
 }
