@@ -1,6 +1,5 @@
 package com.cos.blog.config;
 
-import com.cos.blog.config.auth.PrincipalDetail;
 import com.cos.blog.config.auth.PrincipalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,10 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable() // csrf 토큰 비활성화 (테스트시 걸어두는 게 좋음)
-
-                .authorizeRequests()
+        http.csrf().disable(); // csrf 토큰 비활성화 (테스트시 걸어두는 게 좋음)
+        http.authorizeRequests()
                 .antMatchers("/","/auth/**", "/js/**", "/css/**", "/image/**")
                 .permitAll()
                 .anyRequest()

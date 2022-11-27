@@ -11,7 +11,7 @@ import java.util.Collection;
 // 스프링 시큐리티의 고유한 세션장소에 저장을 해준다.
 public class PrincipalDetail implements UserDetails {
 
-    private final User user; //컴퍼지션 (User 클래스를 품고 있는것)
+    private User user; //컴퍼지션 (User 클래스를 품고 있는것)
 
     //생성자로 우리가 만든 model의 User 정보를 넣어준다.
     public PrincipalDetail(User user) {
