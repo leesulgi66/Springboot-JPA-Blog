@@ -11,4 +11,9 @@ public class BoardController {
         // /WEB-INF/views/index.jsp
         return "index";
     }
+
+    @GetMapping({"/board/saveFrom"})
+    public String saveFrom() {
+        return "board/saveFrom";
+    }
 }
