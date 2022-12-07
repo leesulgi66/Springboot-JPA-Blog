@@ -21,6 +21,12 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    @Transactional(readOnly = true)
+    public User 회원찾기(String username) {
+        User user = userRepository.findByUsername(username).orElseGet(User::new);
+        return user;
+    }
+
     @Transactional
     public int 회원가입(User user) {
         String rawPassword = user.getPassword(); // 1234 원문
@@ -43,10 +49,14 @@ public class UserService {
         User psersistance = userRepository.findById(user.getId()).orElseThrow(()->{
             return new IllegalArgumentException("회원 찾기 실패");
         });
-        String rawPassword = user.getPassword();
-        String encPassword = encoder.encode(rawPassword);
-        psersistance.setPassword(encPassword);
-        psersistance.setEmail(user.getEmail());
+
+        //Validate 체크 (카카오 로그인 사용자들은 개인정보를 변경을 할 수 없다.)
+        if(psersistance.getOauth() == null || psersistance.getOauth().equals("")){
+            String rawPassword = user.getPassword();
+            String encPassword = encoder.encode(rawPassword);
+            psersistance.setPassword(encPassword);
+            psersistance.setEmail(user.getEmail());
+        }
 
         //회원수정 함수 종료시 = 서비스 종료 = 트랜잭셕 종료 = commit이 자동으로 됨.
         //영속화된 persistance 객체의 변화가 감지되면 더티체킹으로 update문을 날려줌.

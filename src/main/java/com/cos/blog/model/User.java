@@ -36,6 +36,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleType role; // Enum을 쓰는게 좋다. // ADMIN, USER -> String값으로 입력오류를 방지하기 위함.
 
+    private String oauth; // oauth로 로그인 한 사람 구분
+
     @CreationTimestamp // 시간이 자동 입력
     private Timestamp createDate;
 }
