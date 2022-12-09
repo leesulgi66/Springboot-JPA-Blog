@@ -1,10 +1,12 @@
 package com.cos.blog.service;
 
+import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.model.Board;
 import com.cos.blog.model.Reply;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.ReplyRepository;
+import com.cos.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class BoardService {
 
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private BoardRepository boardRepository;
     @Autowired
@@ -57,16 +61,27 @@ public class BoardService {
     }
 
     @Transactional
-    public void 댓글쓰기(User user, int boardId, Reply requestReply) {
+    public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
 
-        Board board = boardRepository.findById(boardId)
+        User user = userRepository.findById(replySaveRequestDto.getUserId())
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("사용자 찾기 실패 : 유저 아이디를 찾을 수 없습니다.");
+                }); //영속화 완료;
+
+        Board board = boardRepository.findById(replySaveRequestDto.getBoardId())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 아이디를 찾을 수 없습니다.");
                 }); //영속화 완료;
 
-        requestReply.setUser(user);
-        requestReply.setBoard(board);
+//        Reply reply = Reply.builder()  //빌더를 사용해서 새로운 객체로 만들어도 됨.
+//                .user(user)
+//                .board(board)
+//                .content(replySaveRequestDto.getContent())
+//                .build();
 
-        replyRepository.save(requestReply);
+        Reply reply = new Reply(); //model에서 update 함수를 만든 후 사용도 가능.
+        reply.update(user, board, replySaveRequestDto.getContent());
+
+        replyRepository.save(reply);
     }
 }
