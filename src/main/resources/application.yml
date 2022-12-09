@@ -37,7 +37,7 @@ spring:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa
-    password:
+    password: 3524
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -46,7 +46,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        show_sql: true
+        show_sql: false
     defer-datasource-initialization: true
 
   jackson:

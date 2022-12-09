@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+
 
 //스프링이 컴포넌트 스캔을 통해서 Bean에 등록을 해줌. IoC를 해준다.
 //Transactional = 일이 처리되기 위한 가장 작은 단위
@@ -59,5 +61,14 @@ public class UserService {
 
         //회원수정 함수 종료시 = 서비스 종료 = 트랜잭셕 종료 = commit이 자동으로 됨.
         //영속화된 persistance 객체의 변화가 감지되면 더티체킹으로 update문을 날려줌.
+    }
+
+    @Transactional
+    public void 회원탈퇴(int userId, HttpSession session) {
+        User user = userRepository.findById(userId).orElseThrow(()->{
+            return new IllegalArgumentException("회원을 찾을 수 없습니다.");
+        });
+        session.removeAttribute(user.getUsername());
+        userRepository.deleteById(userId);
     }
 }
