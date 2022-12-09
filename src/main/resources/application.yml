@@ -13,22 +13,41 @@ spring:
       prefix: /WEB-INF/views/
       suffix: .jsp
 
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
+#    username: cos
+#    password: cos1234
+#
+#  jpa:
+#    open-in-view: true
+#    hibernate:
+#      ddl-auto: update
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#      use-new-id-generator-mappings: false #jpa 기본 넘버링 전략을 따라가지 않겠다. Entity 에 strategy = GenerationType.IDENTITY를 선언.
+#    show-sql: false
+#    properties:
+#      hibernate.format_sql: true
+  h2:
+    console:
+      enabled: true
+
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
-    username: cos
-    password: cos1234
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
 
   jpa:
-    open-in-view: true
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      use-new-id-generator-mappings: false #jpa 기본 넘버링 전략을 따라가지 않겠다. Entity 에 strategy = GenerationType.IDENTITY를 선언.
-    show-sql: false
+      ddl-auto: create-drop
     properties:
-      hibernate.format_sql: true
+      hibernate:
+        format_sql: true
+        show_sql: true
+    defer-datasource-initialization: true
 
   jackson:
     serialization:
