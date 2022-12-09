@@ -7,6 +7,7 @@ import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.ReplyRepository;
 import com.cos.blog.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,14 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@RequiredArgsConstructor
 public class BoardService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BoardRepository boardRepository;
-    @Autowired
-    private ReplyRepository replyRepository;
+    private final UserRepository userRepository; //final 선언시 반드시 초기화가 필요한데 @RequiredArgsConstructor이 대신 해준다.
+    private final BoardRepository boardRepository;
+    private final ReplyRepository replyRepository;
 
     @Transactional
     public void 글쓰기(Board board, User user) {
