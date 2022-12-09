@@ -27,7 +27,7 @@ let index = {
             contentType: "application/json; charset=utf-8",
             dataType: "json"
         }).done(function(resp){
-            if(resp.status === 500){
+            if(resp.status === 500 || data.title === '' || data.content === '') {
                 alert("글쓰기에 실패하였습니다.");
             }else{
                 alert("글쓰기가 완료되었습니다.");
@@ -72,8 +72,12 @@ let index = {
             contentType: "application/json; charset=utf-8",
             dataType: "json"
         }).done(function(resp){
-            alert("글수정이 완료되었습니다.");
-            location.href = "/";
+            if(resp.status === 500 || data.title === '' || data.content === ''){
+                alert("글 수정이 실패하였습니다.");
+            }else{
+                alert("글 수정이 완료되었습니다.");
+                location.href = "/";
+            }
         }).fail(function(error){
             alert(JSON.stringify(error));
         });
@@ -93,11 +97,29 @@ let index = {
             contentType: "application/json; charset=utf-8",
             dataType: "json"
         }).done(function(resp){
-            if(resp.status === 500){
+            if(resp.status === 500 || data.content === ''){
                 alert("댓글작성이 실패하였습니다.");
             }else{
                 alert("댓글작성이 완료되었습니다.");
                 location.href = `/board/${data.boardId}`;
+            }
+        }).fail(function(error){
+            alert(JSON.stringify(error));
+        });
+    },
+
+    replyDelete: function(boardId, replyId) {
+
+        $.ajax({
+            type: "DELETE",
+            url: `/api/board/${boardId}/reply/${replyId}`,
+            dataType: "json"
+        }).done(function(resp){
+            if(resp.status === 500){
+                alert("댓글 삭제가 실패하였습니다.");
+            }else{
+                alert("댓글 삭제가 완료되었습니다.");
+                location.href = `/board/${boardId}`;
             }
         }).fail(function(error){
             alert(JSON.stringify(error));
