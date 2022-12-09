@@ -17,6 +17,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value=Exception.class) //최고 부모인 Exception을 넣어주면 모든 예외가 이쪽으로 들어온다. 하지만 상세한 구분을 할 수 없다.
     public ResponseDto<String> handleArgumentException(Exception e) {
-        return new ResponseDto<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(),e.getMessage());
+        return new ResponseDto<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(),e.getMessage()); // INTERNAL_SERVER_ERROR 값은 500이다.
     }
 }
