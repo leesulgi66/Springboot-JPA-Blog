@@ -66,6 +66,24 @@ let index = {
             alert(JSON.stringify(error));
         });
     },
+
+    userDelete: function(userId) {
+
+        $.ajax({
+            type: "DELETE",
+            url: `/user/${userId}`,
+            dataType: "json"
+        }).done(function(resp){
+            if(resp.status === 500){
+                alert("회원탙퇴가 실패하였습니다.");
+            }else{
+                alert("회원탈퇴가 완료되었습니다.");
+                location.href = "/logout";
+            }
+        }).fail(function(error){
+            alert(JSON.stringify(error));
+        });
+    },
 }
 
 index.init();

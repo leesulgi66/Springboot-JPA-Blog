@@ -2,6 +2,7 @@ package com.cos.blog.service;
 
 import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
+import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder encoder;
+    @Autowired
+    private BoardRepository boardRepository;
 
     @Transactional(readOnly = true)
     public User 회원찾기(String username) {
@@ -69,6 +72,7 @@ public class UserService {
             return new IllegalArgumentException("회원을 찾을 수 없습니다.");
         });
         session.removeAttribute(user.getUsername());
+        boardRepository.deleteAllByUserId(user.getId());
         userRepository.deleteById(userId);
     }
 }

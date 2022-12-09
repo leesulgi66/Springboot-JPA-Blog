@@ -27,6 +27,9 @@
 
     </form>
     <button id="btn-update" class="btn btn-primary">회원수정완료</button>
+    <button onClick="index.userDelete(${principal.user.id})" class="btn btn-primary">회원탈퇴</button>
+
+
 
 </div>
 
