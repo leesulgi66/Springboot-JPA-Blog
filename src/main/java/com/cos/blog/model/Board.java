@@ -1,5 +1,6 @@
 package com.cos.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,7 +37,8 @@ public class Board {
     private User user; //DB는 오브젝트를 저장할 수 없다. FK, 자바는 오브젝트를 저장할 수 있다.
 
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER) //mappedBy 연관관계의 주인이 아니다(난 FK가 아니다) DB에 컬럼을 만들지 않는다.
-    private List<Reply> reply;
+    @JsonIgnoreProperties({"board"}) //순환참조 방지. reply를 조회 할 때는 안에있는 board를 다시 조회하지 않는다.
+    private List<Reply> replys;
 
     @CreationTimestamp
     private Timestamp createDate;
