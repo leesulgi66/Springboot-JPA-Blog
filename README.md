@@ -9,7 +9,7 @@
 - Rest Controller 와 Controller사용
 - CRUD 학습 (C: 회원가입,글쓰기,댓글작성 /R: 메인 페이지 보기, 글 상세보기, 회원가입 및 로그인 페이지 /U: 회원 정보 수정 및 글 내용 수정 /D: 게시글 삭제, 댓글 삭제, 회원탈퇴)
 - Session 로그인을 통한 Spring Security의 이해
-- OAuth 로그인의 원리 학습 Kakao
+- OAuth 로그인의 원리 이해 (Kakao)
 - 간단한 html/css/JavaScript
 <br>
 
